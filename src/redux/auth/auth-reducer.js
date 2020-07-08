@@ -1,4 +1,11 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from "./auth-types";
+import {
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  REGISTER_REQUEST,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE,
+} from "./auth-types";
 
 const initialState = {
   loading: false,
@@ -29,6 +36,17 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         error,
+      };
+    case REGISTER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case REGISTER_SUCCESS:
+      return { ...state };
+    case REGISTER_FAILURE:
+      return {
+        ...state,
       };
     default:
       return state;

@@ -6,6 +6,7 @@ import { BrowserRouter, Switch } from "react-router-dom";
 import { PublicRoute, PrivateRoute } from "./index";
 import { FullScreenLayout, MainLayout } from "../components";
 import { LoginPage, HomePage } from '../containers'
+import RegisterAccount from "../containers/RegisterAccount/RegisterAccount";
 
 function Routes() {
   useEffect(() => {
@@ -19,6 +20,9 @@ function Routes() {
           <Switch>
             <PublicRoute path="/login" layout={FullScreenLayout}>
               <LoginPage />
+            </PublicRoute>
+            <PublicRoute path="/register" layout={FullScreenLayout}>
+              <RegisterAccount />
             </PublicRoute>
             <PrivateRoute exact path="/" layout={MainLayout}>
               <HomePage/>
