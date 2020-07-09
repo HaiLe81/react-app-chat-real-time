@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./HomePage.css";
 import "antd/dist/antd.css";
 import { useSelector } from "react-redux";
-import { Layout, Menu, Input, Row, Col } from "antd";
+import { Layout, Menu, Input, Row, Col, Avatar } from "antd";
 import {
   TeamOutlined,
   SendOutlined,
@@ -13,8 +13,15 @@ import {
   SaveOutlined,
   FileZipOutlined,
   CommentOutlined,
+  DownOutlined,
+  CloseOutlined,
+  ExclamationCircleOutlined,
+  UserOutlined,
+  EllipsisOutlined,
+  EditOutlined,
+  SmileOutlined,
 } from "@ant-design/icons";
-import { ModalAddChannel } from "../../components";
+import { ModalAddChannel, MenuOption } from "../../components";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -24,7 +31,9 @@ function HomePage() {
   const store = useSelector((state) => state);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenSubMenu, setIsOpenSubMenu] = useState(false);
   const open = () => setIsOpen(true);
+  const openSubMenu = () => setIsOpenSubMenu(!isOpenSubMenu);
   const close = () => setIsOpen(false);
 
   console.log("store", store);
@@ -33,8 +42,8 @@ function HomePage() {
     console.log("values", e.target.value);
   };
   const toggle = () => {
-    console.log("Clicked");
     setCollapsed(!collapsed);
+    setIsOpenSubMenu(false);
   };
 
   return (
@@ -49,19 +58,24 @@ function HomePage() {
       >
         <div className="z">
           <div className="logo">
-            <div className="left" onClick={() => toggle()}>
-              <label>CodersX-K1</label>
+            <div className="left" onClick={openSubMenu}>
+              <label>
+                CodersX-K1
+                <DownOutlined />
+              </label>
               <p id="username">HaiLe</p>
             </div>
-            <div className="right">
-              <FormOutlined
-                onClick={open}
-                style={{ color: "black" }}
-              />
+            <div className="right" onClick={open}>
+              <FormOutlined style={{ color: "black" }} />
             </div>
           </div>
         </div>
-        <ModalAddChannel isOpen={isOpen} open={open} close={close}/>
+        <MenuOption
+          istoggle={toggle}
+          isOpen={isOpenSubMenu}
+          open={openSubMenu}
+        />
+        <ModalAddChannel isOpen={isOpen} open={open} close={close} />
         <Menu
           className="menu-left"
           theme="dark"
@@ -103,13 +117,15 @@ function HomePage() {
                 </div>
               </div>
             </Col>
-            <Col span={2}>2</Col>
+            <Col span={2}>
+              <ExclamationCircleOutlined />
+            </Col>
           </Row>
         </Header>
         <Content style={{ overflow: "initial" }}>
           <div className="site-layout-background b-content">Really</div>
         </Content>
-        <Footer >
+        <Footer>
           <div className="wrapper-input">
             <Input
               className="input"
@@ -132,20 +148,52 @@ function HomePage() {
         collapsedWidth={0}
         collapsed={collapsed}
       >
-        <div className="logo1"></div>
-        <Menu
-          className="menu-2"
-          theme="light"
-          mode="inline"
-          defaultSelectedKeys={["4"]}
-        >
-          <Menu.Item key="1" icon={<MenuOutlined />}>
-            All unreads
-          </Menu.Item>
-          <Menu.Item key="2" icon={<MessageOutlined />}>
-            Threads
-          </Menu.Item>
-        </Menu>
+        <div className="logo1">
+          <p>Profile</p>
+          <div onClick={toggle} className="close">
+            <CloseOutlined />
+          </div>
+        </div>
+        <div className="profile">
+          <Avatar shape="square" size={150} icon={<UserOutlined />} />
+          <div className="t-profile">
+            <p className="fullname">Hai Le</p>
+            <a href="!#">Add a title</a>
+          </div>
+          <div className="p-action">
+            <div className="icon-item status">
+              <SmileOutlined style={{ color: "black" }} />
+            </div>
+            <div className="icon-item edit">
+              <EditOutlined style={{ color: "black" }} />
+            </div>
+            <div className="icon-item more">
+              <EllipsisOutlined style={{ color: "black" }} />
+            </div>
+          </div>
+          <div className="info">
+            <ul>
+              <li>
+                <div>
+                  <p>Display Name</p>
+                  <p>Hai Le</p>
+                </div>
+                <div>
+                  <p>Display Name</p>
+                  <p>Hai Le</p>
+                </div>
+                <div>
+                  <p>Display Name</p>
+                  <p>Hai Le</p>
+                </div>
+                <div>
+                  <p>Display Name</p>
+                  <p>Hai Le</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </Sider>
     </Layout>
   );

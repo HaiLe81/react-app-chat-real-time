@@ -3,3 +3,4 @@ export {default as FullScreenLayout} from './layouts/FullScreenLayout/FullScreen
 export {default as MainLayout} from './layouts/MainLayout/MainLayout'
 export {default as NotFound} from './results/NotFound/NotFound'
 export {default as ModalAddChannel} from './ModalAddChannel/ModalAddChannel'
+export {default as MenuOption} from './MenuOption/MenuOption'
