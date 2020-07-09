@@ -10,7 +10,7 @@ import { LoginUsers } from "../../redux/auth/auth-actions";
 let a;
 function Login({ LoginUsers }) {
   const router = useRouter();
-  a= router;
+  a = router;
   const [isValidForm, setIsValidForm] = useState(false);
   const onChangeFields = (_, allFields) => {
     const isValid = allFields.every(
@@ -91,7 +91,7 @@ const mapDispatchToProps = (dispatch) => {
         .then((res) => {
           const { from = "/" } = a.state || {};
           message[res.status](res.message);
-          a.replace(from)
+          a.replace(from);
         })
         .catch((err) => message[err.status](err.message));
     },
