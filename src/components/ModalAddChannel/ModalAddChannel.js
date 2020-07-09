@@ -1,7 +1,9 @@
 import React from "react";
 import "./ModalAddChannel.css";
 import "antd/dist/antd.css";
-import { Modal, Input, Form, Button } from "antd";
+import { connect, useSelector } from "react-redux";
+import { Modal, Input, Form, Button, message } from "antd";
+import { AddChannel } from "../../redux/channel/channel-actions";
 
 const layout = {
   labelCol: { span: 5 },
@@ -10,18 +12,30 @@ const layout = {
 const tailLayout = {
   wrapperCol: { offset: 16, span: 16 },
 };
-const onFinish = () => {
-  console.log("Clicked");
-};
-const onFinishFailed = () => {
-  console.log("Clicked");
-};
 
-const ModalAddChannel = ({ close, isOpen }) => {
+const ModalAddChannel = ({ close, isOpen, AddChannel }) => {
+  const selector = useSelector((state) => state.auth);
+  const [form] = Form.useForm();
+
+  const onFinish = ({name}) => {
+    let author = selector.user._id
+    AddChannel(name, author)
+    form.resetFields();
+    close()
+  };
+  const onFinishFailed = () => {
+    console.log("Clicked");
+  };
   return (
-    <Modal title="Add new Channel" visible={isOpen} footer={null} onCancel={close}>
+    <Modal
+      title="Add new Channel"
+      visible={isOpen}
+      footer={null}
+      onCancel={close}
+    >
       <Form
         {...layout}
+        form={form}
         name="basic"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -44,4 +58,16 @@ const ModalAddChannel = ({ close, isOpen }) => {
   );
 };
 
-export default ModalAddChannel;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    AddChannel: (name, author) => {
+      dispatch(AddChannel(name, author))
+      .then(res => {
+        message[res.status](res.message)
+      })
+      .catch(err => message[err.status](err.message))
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ModalAddChannel);
