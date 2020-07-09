@@ -66,7 +66,7 @@ export const LoginUsers = (values) => async (dispatch) => {
         resolve({ status: res.status, message: res.message });
       })
       .catch((err) => {
-        dispatch(fetchUsersFailure(err));
+        dispatch(fetchUsersFailure(err.message));
         reject({ status: err.status, message: err.message });
       });
   });
@@ -84,7 +84,7 @@ export const RegisterUser = (values) => async (dispatch) => {
         resolve({ status: res.status, message: res.message });
       })
       .catch((err) => {
-        dispatch(registerFailure(err));
+        dispatch(registerFailure(err.message));
         reject({ status: err.status, message: err.message });
       });
   });

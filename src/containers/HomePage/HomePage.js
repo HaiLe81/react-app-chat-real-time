@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./HomePage.css";
 import "antd/dist/antd.css";
-import { useSelector } from "react-redux";
+import { useSelector, connect } from "react-redux";
 import { Layout, Menu, Input, Row, Col, Avatar } from "antd";
 import {
   TeamOutlined,
@@ -22,12 +22,16 @@ import {
   SmileOutlined,
 } from "@ant-design/icons";
 import { ModalAddChannel, MenuOption } from "../../components";
+import { FetctChannels } from "../../redux/channel/channel-actions";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-function HomePage() {
-  const [collapsed, setCollapsed] = useState(false);
+function HomePage({ FetctChannels }) {
+  useEffect(() => {
+    FetctChannels();
+  }, [FetctChannels]);
+  const [collapsed, setCollapsed] = useState(true);
   const store = useSelector((state) => state);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -36,8 +40,7 @@ function HomePage() {
   const openSubMenu = () => setIsOpenSubMenu(!isOpenSubMenu);
   const close = () => setIsOpen(false);
 
-  console.log("store", store);
-
+  const channels = store.channel.channels;
   const onSubmit = (e) => {
     console.log("values", e.target.value);
   };
@@ -98,10 +101,14 @@ function HomePage() {
             Files
           </Menu.Item>
           <SubMenu key="sub1" icon={<CommentOutlined />} title="Channels">
-            <Menu.Item key="7"># JavaScript</Menu.Item>
+            {channels &&
+              channels.map((item, index) => (
+                <Menu.Item key={index}>{item.name}</Menu.Item>
+              ))}
+            {/* <Menu.Item key="7"># JavaScript</Menu.Item>
             <Menu.Item key="8"># HTML/CSS</Menu.Item>
             <Menu.Item key="9"># Job</Menu.Item>
-            <Menu.Item key="10"># General</Menu.Item>
+            <Menu.Item key="10"># General</Menu.Item> */}
           </SubMenu>
         </Menu>
       </Sider>
@@ -199,4 +206,12 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    FetctChannels: () => {
+      dispatch(FetctChannels());
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(HomePage);
