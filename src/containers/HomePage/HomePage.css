@@ -117,6 +117,16 @@ footer .input {
 .logo1 {
   height: 63px;
   border-bottom: 1px solid #f6f6f6;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+.logo1 p {
+  margin: 0;
+  font-weight: 800;
+  font-size: 14px;
+  flex-grow: 1;
+  text-align: left;
 }
 .sider-right {
   border: 1px solid #f0f0f0 !important;
@@ -125,4 +135,69 @@ footer {
   background-color: rgba(var(--b3f, 250, 250, 250), 1) !important;
   text-align: center;
   padding: 24px 30px;
+}
+.close {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.close:hover {
+  background-color: #eceaea;
+}
+.profile .ant-avatar-icon {
+  margin: 20px 0;
+}
+.profile .t-profile p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+.profile .p-action {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 40px;
+  align-items: center;
+}
+.icon-item {
+  height: 30px;
+  width: 30px;
+  display: grid;
+  background-color: #d3d2d2;
+  border-radius: 50%;
+  align-items: center;
+  margin: 0 10px;
+  opacity: .7;
+}
+.icon-item:hover {
+  opacity: 1;
+}
+.info {
+  margin-top: 20px;
+}
+.info ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.info ul li p {
+  margin: 0;
+  text-align: left;
+  color: black;
+}
+.info ul li p:nth-child(1){
+  font-weight: 600;
+  font-size: 13px;
+}
+.info ul li {
+  padding-left: 20px;
+  height: 40px;
+}
+.info ul li:hover {
+  background: none;
 }
