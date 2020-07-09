@@ -1,0 +1,128 @@
+section {
+  height: 100vh;
+}
+.menu-left {
+  margin-top: 64px;
+}
+.z {
+  padding: 16px 0;
+  height: 64px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  background: #001529;
+  z-index: 2;
+  border-bottom: 1px solid #f6f6f6;
+}
+.logo {
+  height: 32px;
+  color: white;
+  display: flex;
+  flex-direction: row;
+}
+.logo .left {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 25px;
+  cursor: pointer;
+}
+.logo .left:hover p {
+  opacity: 1;
+}
+.logo .right {
+  display: flex;
+  width: 40px !important;
+  height: 40px !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.logo .left label {
+  font-size: 14px;
+  font-weight: 700;
+}
+.logo .left p {
+  margin: 0 !important;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.8;
+}
+.menu-1 {
+  border-top: 1px solid #f0f0f0 !important;
+}
+.site-layout .site-layout-background {
+  background: #fff;
+}
+header {
+  border-bottom: 1px solid #f0f0f0 !important;
+}
+[data-theme="dark"] .site-layout .site-layout-background {
+  background: #141414;
+}
+footer .input {
+  height: 10vh;
+}
+.ant-input-suffix {
+  cursor: pointer;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 64px;
+}
+.wrapper .name-channel {
+  height: 32px;
+  text-align: left;
+  margin-left: 20px;
+  font-weight: 800;
+  margin-top: -5px;
+}
+.wrapper .users {
+  height: 32px;
+  text-align: left;
+  margin-left: 20px;
+  padding-top: 5px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.b-menu {
+  border-bottom: 1px solid #f0f0f0;
+}
+.b-content {
+  text-align: center;
+  height: 80vh;
+  background-color: rgba(var(--b3f, 250, 250, 250), 1) !important;
+}
+/* right menu */
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+.logo1 {
+  height: 63px;
+  border-bottom: 1px solid #f6f6f6;
+}
+.sider-right {
+  border: 1px solid #f0f0f0 !important;
+}
+footer {
+  background-color: rgba(var(--b3f, 250, 250, 250), 1) !important;
+  text-align: center;
+  padding: 24px 30px;
+}
