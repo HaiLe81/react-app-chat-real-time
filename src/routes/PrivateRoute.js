@@ -10,7 +10,7 @@ import {
   MainLayout,
   FullScreenLayout,
   SpinEffect,
-  NotFound,
+  // NotFound,
 } from "../components";
 import { fetchUsersSuccess } from "../redux/auth/auth-actions";
 
@@ -34,8 +34,6 @@ function PrivateRoute({
       distpatch(fetchUsersSuccess(user, token));
     }
   }, [distpatch, store.auth.isAuthorized]);
-  console.log("a", store.auth.isAuthorized);
-  console.log("b", store.auth);
   if (isExistedToken && store.auth.loading) {
     return (
       <FullScreenLayout>

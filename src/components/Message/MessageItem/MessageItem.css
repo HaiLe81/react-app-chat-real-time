@@ -1,0 +1,41 @@
+.message-item ul {
+  padding: 0;
+  margin: 0;
+}
+.message-item ul li {
+  list-style-type: none;
+  /* display: flex;
+  flex-direction: column; */
+}
+.message-item .wraaper-message {
+  display: flex;
+  flex-direction: row;
+}
+.message-item .Logo {
+  width: 50px;
+  display: flex;
+  margin-top: 15px;
+  justify-content: center;
+}
+.message-right .t-name {
+  display: flex;
+  flex-direction: row;
+  margin-top: 15px;
+}
+.wraaper-message .message-right {
+  display: flex;
+  flex-direction: column;
+}
+.t-name .fullname {
+  font-size: 20px;
+  font-weight: 600;
+}
+.t-name .time {
+  font-size: 13px;
+  align-self: center;
+  margin: 5px 0 0 10px;
+}
+
+.message-right .content-message {
+    text-align: left;
+}
