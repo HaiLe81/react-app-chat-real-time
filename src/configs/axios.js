@@ -7,10 +7,8 @@ const instance = Axios.create({
     timeout: 30000,
     responseType: "json"
 })
-
 instance.setAuthorization = (token) => {
     instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
 }
-
 
 export default instance 
