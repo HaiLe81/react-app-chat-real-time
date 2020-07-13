@@ -2,7 +2,6 @@ import decode from "jwt-decode";
 
 const setCookie = (key, jwtToken, exp) => {
   const decoded = decode(jwtToken);
-  console.log("dec", decoded);
   let expires = exp || new Date(decoded.exp * 1000);
   expires = expires.toUTCString();
   document.cookie = `${key}=${jwtToken}; expires=${expires}`;
@@ -25,6 +24,7 @@ const getCookie = (key) => {
 };
 
 const removeCookie = (key) => {
+  console.log("remove", key);
   document.cookie = key + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
 };
 
