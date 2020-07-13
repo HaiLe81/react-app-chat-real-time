@@ -4,6 +4,7 @@ import "antd/dist/antd.css";
 import { connect, useSelector } from "react-redux";
 import { Modal, Input, Form, Button, message } from "antd";
 import { AddChannel } from "../../redux/channel/channel-actions";
+import socket from "../../socket/index";
 
 const layout = {
   labelCol: { span: 5 },
@@ -17,11 +18,11 @@ const ModalAddChannel = ({ close, isOpen, AddChannel }) => {
   const selector = useSelector((state) => state.auth);
   const [form] = Form.useForm();
 
-  const onFinish = ({name}) => {
-    let author = selector.user._id
-    AddChannel(name, author)
+  const onFinish = ({ name }) => {
+    let author = selector.user._id;
+    AddChannel(name, author);
     form.resetFields();
-    close()
+    close();
   };
   const onFinishFailed = () => {
     console.log("Clicked");
@@ -62,10 +63,13 @@ const mapDispatchToProps = (dispatch) => {
   return {
     AddChannel: (name, author) => {
       dispatch(AddChannel(name, author))
-      .then(res => {
-        message[res.status](res.message)
-      })
-      .catch(err => message[err.status](err.message))
+        .then((res) => {
+          socket.emit("addChannel");
+          message[res.status](res.message);
+        })
+        .catch((err) => {
+          message[err.status](err.message);
+        });
     },
   };
 };
