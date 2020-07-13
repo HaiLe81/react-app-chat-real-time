@@ -5,11 +5,12 @@ import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
+  RESET_AUTH
 } from "./auth-types";
 
 import { login, register } from "./auth-service";
 import { setCookie } from "../cookie/cookie-service";
-import { globals } from "../../configs";
+import { globals, axios } from "../../configs";
 
 // login
 export const fetchUsersRequest = () => {
@@ -19,6 +20,7 @@ export const fetchUsersRequest = () => {
 };
 
 export const fetchUsersSuccess = (user, token) => {
+  axios.setAuthorization(token);
   return {
     type: LOGIN_SUCCESS,
     payload: { user, token },
@@ -53,6 +55,12 @@ export const registerFailure = (error) => {
   };
 };
 
+export const resetAuth = () => {
+  return {
+    type: RESET_AUTH
+  };
+};
+
 // login
 export const LoginUsers = (values) => async (dispatch) => {
   const { username, password } = values;
@@ -74,7 +82,6 @@ export const LoginUsers = (values) => async (dispatch) => {
 
 // register
 export const RegisterUser = (values) => async (dispatch) => {
-  
   dispatch(registerRequest);
 
   return new Promise((resolve, reject) => {
@@ -89,3 +96,8 @@ export const RegisterUser = (values) => async (dispatch) => {
       });
   });
 };
+
+export const LogOut = () => async (dispatch) => {
+  dispatch(resetAuth())
+  return;
+}

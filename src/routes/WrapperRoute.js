@@ -5,7 +5,7 @@ import "antd/dist/antd.css";
 import { BrowserRouter, Switch } from "react-router-dom";
 import { PublicRoute, PrivateRoute } from "./index";
 import { FullScreenLayout, MainLayout } from "../components";
-import { LoginPage, HomePage } from '../containers'
+import { LoginPage } from '../containers'
 import RegisterAccount from "../containers/RegisterAccount/RegisterAccount";
 
 function Routes() {
@@ -25,7 +25,8 @@ function Routes() {
               <RegisterAccount />
             </PublicRoute>
             <PrivateRoute exact path="/" layout={MainLayout}>
-              <HomePage/>
+            </PrivateRoute>
+            <PrivateRoute exact path="/channel/:channelId" layout={MainLayout}>
             </PrivateRoute>
             <PublicRoute layout={FullScreenLayout}>page not found</PublicRoute>
           </Switch>
