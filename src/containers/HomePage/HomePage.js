@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./HomePage.css";
 import "antd/dist/antd.css";
 import { useSelector, connect } from "react-redux";
-import { Layout, Menu, Input, Row, Col, Avatar } from "antd";
+import { Layout, Menu, Avatar } from "antd";
 import {
-  TeamOutlined,
-  SendOutlined,
   FormOutlined,
   MenuOutlined,
   MessageOutlined,
@@ -15,40 +13,55 @@ import {
   CommentOutlined,
   DownOutlined,
   CloseOutlined,
-  ExclamationCircleOutlined,
   UserOutlined,
   EllipsisOutlined,
   EditOutlined,
   SmileOutlined,
 } from "@ant-design/icons";
-import { ModalAddChannel, MenuOption } from "../../components";
-import { FetctChannels } from "../../redux/channel/channel-actions";
+import {
+  ModalAddChannel,
+  MenuOption,
+  Message,
+  ModalJoinChannel,
+} from "../../components";
+import { FetchChannels } from "../../redux/channel/channel-actions";
+import { axios, globals } from "../../configs";
+import { getCookie } from "../../redux/cookie/cookie-service";
 
-const { Header, Content, Footer, Sider } = Layout;
+import socket from "../../socket/index";
+
+const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-function HomePage({ FetctChannels }) {
+function HomePage({ FetchChannels }) {
   useEffect(() => {
-    FetctChannels();
-  }, [FetctChannels]);
+    const token = getCookie(globals.env.COOKIE_KEY);
+    if (!token) return;
+    axios.setAuthorization(token);
+  }, []);
+  useEffect(() => {
+    FetchChannels();
+  }, [FetchChannels]);
+
+  useEffect(() => {
+    socket.on("getChannels", () => {
+      FetchChannels();
+    });
+  });
+
   const [collapsed, setCollapsed] = useState(true);
   const store = useSelector((state) => state);
-
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenSubMenu, setIsOpenSubMenu] = useState(false);
   const open = () => setIsOpen(true);
   const openSubMenu = () => setIsOpenSubMenu(!isOpenSubMenu);
   const close = () => setIsOpen(false);
-
-  const channels = store.channel.channels;
-  const onSubmit = (e) => {
-    console.log("values", e.target.value);
-  };
+  const channels = store.channel && store.channel.channels;
+  const userId = store.auth.user._id;
   const toggle = () => {
     setCollapsed(!collapsed);
     setIsOpenSubMenu(false);
   };
-
   return (
     <Layout>
       <Sider
@@ -66,7 +79,7 @@ function HomePage({ FetctChannels }) {
                 CodersX-K1
                 <DownOutlined />
               </label>
-              <p id="username">HaiLe</p>
+              <p id="username">{store.auth.user.fullname}</p>
             </div>
             <div className="right" onClick={open}>
               <FormOutlined style={{ color: "black" }} />
@@ -77,6 +90,7 @@ function HomePage({ FetctChannels }) {
           istoggle={toggle}
           isOpen={isOpenSubMenu}
           open={openSubMenu}
+          user={store.auth.user}
         />
         <ModalAddChannel isOpen={isOpen} open={open} close={close} />
         <Menu
@@ -85,64 +99,39 @@ function HomePage({ FetctChannels }) {
           mode="inline"
           defaultSelectedKeys={["4"]}
         >
-          <Menu.Item key="1" icon={<MenuOutlined />}>
+          <Menu.Item key="a" icon={<MenuOutlined />}>
             All unreads
           </Menu.Item>
-          <Menu.Item key="2" icon={<MessageOutlined />}>
+          <Menu.Item key="b" icon={<MessageOutlined />}>
             Threads
           </Menu.Item>
-          <Menu.Item key="3" icon={<SnippetsOutlined />}>
+          <Menu.Item key="c" icon={<SnippetsOutlined />}>
             Drafts
           </Menu.Item>
-          <Menu.Item key="4" icon={<SaveOutlined />}>
+          <Menu.Item key="d" icon={<SaveOutlined />}>
             Save Items
           </Menu.Item>
-          <Menu.Item className="b-menu" key="6" icon={<FileZipOutlined />}>
+          <Menu.Item className="b-menu" key="e" icon={<FileZipOutlined />}>
             Files
           </Menu.Item>
           <SubMenu key="sub1" icon={<CommentOutlined />} title="Channels">
-            {channels &&
-              channels.map((item, index) => (
-                <Menu.Item key={index}>{item.name}</Menu.Item>
-              ))}
-            {/* <Menu.Item key="7"># JavaScript</Menu.Item>
-            <Menu.Item key="8"># HTML/CSS</Menu.Item>
-            <Menu.Item key="9"># Job</Menu.Item>
-            <Menu.Item key="10"># General</Menu.Item> */}
+            {channels.map((item, index) => (
+              <Menu.Item key={index}>
+                <ModalJoinChannel
+                  member={item.member}
+                  path={`/channel/${item._id}`}
+                  channelId={item._id}
+                  channel={item.name}
+                  userId={userId}
+                >
+                  {item.name}
+                </ModalJoinChannel>
+              </Menu.Item>
+            ))}
           </SubMenu>
         </Menu>
       </Sider>
-      <Layout className="site-layout" style={{ marginLeft: 200 }}>
-        <Header className="site-layout-background" style={{ padding: 0 }}>
-          <Row>
-            <Col className="col-1" span={22}>
-              <div className="wrapper">
-                <div className="name-channel">#JavaScript</div>
-                <div className="users">
-                  <TeamOutlined />
-                  7,979
-                </div>
-              </div>
-            </Col>
-            <Col span={2}>
-              <ExclamationCircleOutlined />
-            </Col>
-          </Row>
-        </Header>
-        <Content style={{ overflow: "initial" }}>
-          <div className="site-layout-background b-content">Really</div>
-        </Content>
-        <Footer>
-          <div className="wrapper-input">
-            <Input
-              className="input"
-              onPressEnter={(e) => onSubmit(e)}
-              placeholder="Basic usage"
-              suffix={<SendOutlined disabled={true} />}
-            />
-          </div>
-        </Footer>
-      </Layout>
+      <Message />
       <Sider
         className="sider-right"
         style={{
@@ -164,7 +153,7 @@ function HomePage({ FetctChannels }) {
         <div className="profile">
           <Avatar shape="square" size={150} icon={<UserOutlined />} />
           <div className="t-profile">
-            <p className="fullname">Hai Le</p>
+            <p className="fullname">{store.auth.user.fullname}</p>
             <a href="!#">Add a title</a>
           </div>
           <div className="p-action">
@@ -183,19 +172,15 @@ function HomePage({ FetctChannels }) {
               <li>
                 <div>
                   <p>Display Name</p>
-                  <p>Hai Le</p>
+                  <p>{store.auth.user.fullname}</p>
                 </div>
                 <div>
-                  <p>Display Name</p>
-                  <p>Hai Le</p>
+                  <p>UserName</p>
+                  <p>{store.auth.user.username}</p>
                 </div>
                 <div>
-                  <p>Display Name</p>
-                  <p>Hai Le</p>
-                </div>
-                <div>
-                  <p>Display Name</p>
-                  <p>Hai Le</p>
+                  <p>Phone</p>
+                  <p>{store.auth.user.phone}</p>
                 </div>
               </li>
             </ul>
@@ -208,8 +193,8 @@ function HomePage({ FetctChannels }) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    FetctChannels: () => {
-      dispatch(FetctChannels());
+    FetchChannels: () => {
+      dispatch(FetchChannels());
     },
   };
 };
