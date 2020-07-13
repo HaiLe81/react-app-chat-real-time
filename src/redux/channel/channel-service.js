@@ -31,7 +31,7 @@ const getChannel = async (name, author) => {
   return new Promise((resolve, reject) => {
     axios({
       method: "get",
-      url: route
+      url: route,
     })
       .then((res) => {
         resolve({
@@ -42,10 +42,61 @@ const getChannel = async (name, author) => {
       })
       .catch((error) => {
         const message =
-          error.response?.data?.message || error.message || "Get Channels Failed";
+          error.response?.data?.message ||
+          error.message ||
+          "Get Channels Failed";
         reject({ message: message, status: messagedStatus.error });
       });
   });
 };
 
-export { addChannel, getChannel, route };
+const joinChannel = async (memberId, channelId) => {
+  return new Promise((resolve, reject) => {
+    axios({
+      method: "patch",
+      url: route,
+      data: {
+        memberId,
+        channelId,
+      },
+    })
+      .then((res) => {
+        resolve({
+          message: res.data.message,
+          status: messagedStatus.success,
+        });
+      })
+      .catch((error) => {
+        const message =
+          error.response?.data?.message ||
+          error.message ||
+          "Join Channel Failed";
+        reject({ message: message, status: messagedStatus.error });
+      });
+  });
+};
+
+const getChannelById = async (channelId) => {
+  return new Promise((resolve, reject) => {
+    axios({
+      method: "get",
+      url: route + `/${channelId}`,
+    })
+      .then((res) => {
+        resolve({
+          channel: res.data.channel,
+          message: res.data.message,
+          status: messagedStatus.success,
+        });
+      })
+      .catch((error) => {
+        const message =
+          error.response?.data?.message ||
+          error.message ||
+          "Get Channel Failed";
+        reject({ message: message, status: messagedStatus.error });
+      });
+  });
+};
+
+export { addChannel, getChannel, joinChannel, getChannelById, route };
