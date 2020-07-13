@@ -5,6 +5,7 @@ import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
+  RESET_AUTH,
 } from "./auth-types";
 
 const initialState = {
@@ -47,6 +48,14 @@ const reducer = (state = initialState, action) => {
     case REGISTER_FAILURE:
       return {
         ...state,
+      };
+    case RESET_AUTH:
+      return {
+        loading: false,
+        token: null,
+        isAuthorized: false,
+        user: [],
+        error: "",
       };
     default:
       return state;
